@@ -1,0 +1,2 @@
+# SimpBot
+Because spec
