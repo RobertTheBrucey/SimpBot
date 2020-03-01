@@ -61,7 +61,8 @@ class BotClient( discord.Client ):
             await channel.send("%s is already simped!" % simpee.name)
             return
         msg = await channel.send("Vote to @simp %s initiated by %s" % (simpee.name, message.author.name))
-        await msg.add_reaction("👍")
+        emoji = discord.utils.get(msg.guild.emojis, name='simp')
+        await msg.add_reaction(emoji)
         await msg.add_reaction("👎")
         timeout = 30
         online_members = yes_count = no_count = 0
@@ -75,7 +76,7 @@ class BotClient( discord.Client ):
                 if str(member.status) == "online":
                     online_members += 1
             for reaction in msg.reactions:
-                if reaction.emoji == "👍":
+                if reaction.emoji == emoji:
                     yes_count = reaction.count
                 elif reaction.emoji == "👎":
                     no_count = reaction.count
