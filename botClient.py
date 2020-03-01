@@ -78,12 +78,18 @@ class BotClient( discord.Client ):
         if yes_count-no_count > online_members/4:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             await msg.channel.send(emoji)
-            await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,SIMP_BASETIME))
+            if self.simped[simpee]:
+                mult = self.simped[simpee][1] + 1
+            else:
+                mult = 1
+            time = SIMP_BASETIME * mult
+            await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,time))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
-            self.simped[simpee] = (time.time() + SIMP_BASETIME*60, SIMP_BASETIME)
-            await asyncio.sleep(SIMP_BASETIME*60)
+            self.simped[simpee] = (time.time() + time*60, mult)
+            await asyncio.sleep(time*60)
             await simpee.remove_roles(msg.guild.get_role(675743974140411905),reason="SimpBot timeout over")
             print("Unsimping %s" % simpee.name)
+            await asyncio.sleep(time*60)
             self.simped.pop(simpee)
         else:
             await msg.channel.send("Simp vote for %s failed" % simpee.name)
