@@ -4,7 +4,7 @@ import asyncio
 import pickle
 
 VOTE_TIMEOUT = 2
-SIMP_BASETIME = 10
+SIMP_BASETIME = 7.5
 
 reserved = ['simpintro','simp','unsimp','unsimpall']
 class BotClient( discord.Client ):
