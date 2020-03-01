@@ -45,6 +45,7 @@ class BotClient( discord.Client ):
                         await self.wait_on_simp(message, simpee)
                     else:
                         await message.channel.send("Could not find user.")
+                        print(message.content.lower().split()[1])
                 else:
                     await message.channel.send("Please wait up to %d minutes before simping again %s" % (VOTE_TIMEOUT, message.author.name))
             elif command[1:] == "unsimp":
