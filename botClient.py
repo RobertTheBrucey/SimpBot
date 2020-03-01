@@ -35,10 +35,13 @@ class BotClient( discord.Client ):
                     self.blacklist[message.author] = time.time()
                 if time.time() >= self.blacklist[message.author]:
                     try:
-                        simpeeID = int(message.content.lower().split()[1][3:-1])
+                        simpeeID = int(message.content.lower().split()[1][2:-1])
                     except:
-                        await message.channel.send("No! Bad!")
-                        return
+                        try:
+                            simpeeID = int(message.content.lower().split()[1][3:-1])
+                        except:
+                            await message.channel.send("No! Bad!")
+                            return
                     simpee = message.guild.get_member(simpeeID)
                     if simpee:
                         self.blacklist[message.author] = time.time() + VOTE_TIMEOUT*60
