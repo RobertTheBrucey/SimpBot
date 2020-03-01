@@ -79,7 +79,7 @@ class BotClient( discord.Client ):
         if yes_count-no_count > online_members/4:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             await msg.channel.send(emoji)
-            if self.simped[simpee]:
+            if simpee in self.simped:
                 mult = self.simped[simpee][1] + 1
             else:
                 mult = 1
