@@ -99,7 +99,10 @@ class BotClient( discord.Client ):
             else:
                 mult = 1
             simptime = SIMP_BASETIME * mult
-            votes_for = ', '.join(votes_for_l)
+            votes_for = ""
+            for user in votes_for_l:
+                votes_for += user.name + ", "
+            votes_for = votes_for[:-2]
             await msg.channel.send("%s has been simped for %d minutes\nVotes for: %s" % (simpee.name,simptime,votes_for))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
             self.simped[simpee] = (time.time() + simptime*60, mult)
