@@ -61,14 +61,19 @@ class BotClient( discord.Client ):
         if simpee in self.simped:
             await channel.send("%s is already simped!" % simpee.name)
             return
-        msg = await channel.send("Vote to @simp %s initiated by %s" % (simpee.name, message.author.name))
+        online_members = 0
+        members = msg.guild.members
+        for member in members:
+            if str(member.status) == "online":
+                online_members += 1
+        msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
         await msg.add_reaction(emoji)
         await msg.add_reaction(emoji2)
         timeout = 30
         online_members = yes_count = no_count = 0
-        while timeout > 0 and not (yes_count-no_count > online_members/4):
+        while timeout > 0:
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
             timeout -= 1
             await asyncio.sleep(1)
