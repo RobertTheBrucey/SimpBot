@@ -5,6 +5,7 @@ import pickle
 
 VOTE_TIMEOUT = 2
 SIMP_BASETIME = 7.5
+VOTE_TIME = 30
 
 reserved = ['simpintro','simp','unsimp','unsimpall']
 class BotClient( discord.Client ):
@@ -71,12 +72,14 @@ class BotClient( discord.Client ):
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
         await msg.add_reaction(emoji)
         await msg.add_reaction(emoji2)
-        timeout = 30
+        timeout = VOTE_TIME
+        start_time = time.time()
         online_members = yes_count = no_count = 0
         votes_for = []
         while timeout > 0:
             votes_for_l = []
-            await asyncio.sleep(time.time()%1)
+            sleep_time = (time.time()-start_time) - (VOTE_TIME-timeout)
+            await asyncio.sleep(time.time()-start_time+30-timeout)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
             timeout -= 1
             online_members = yes_count = no_count = 0
@@ -103,7 +106,8 @@ class BotClient( discord.Client ):
             for user in votes_for_l:
                 votes_for += user.name + ", "
             votes_for = votes_for[:-2]
-            await msg.channel.send("%s has been simped for %d minutes\nVotes for: %s" % (simpee.name,simptime,votes_for))
+            await msg.channel.send("%s has been simped for %d minutes\nVotes for: %s" % (simpee.name))
+            await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s" % (simpee.name, message.author.name,simptime,votes_for))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
             self.simped[simpee] = (time.time() + simptime*60, mult)
             await asyncio.sleep(simptime*60)
