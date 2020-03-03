@@ -31,6 +31,7 @@ class BotClient( discord.Client ):
             if command[1:] == "simpintro":
                 await message.channel.send("I'm SimpBot")
             elif command[1:] == "simp":
+                await message.guild.get_member(self.user.id).remove_roles(message.guild.get_role(675743974140411905),reason="SimpBot unsimp")
                 if message.author not in self.blacklist:
                     self.blacklist[message.author] = time.time()
                 if time.time() >= self.blacklist[message.author]:
@@ -57,7 +58,6 @@ class BotClient( discord.Client ):
                 pass
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
-        await message.guild.get_member(self.user.id).remove_roles(channel.guild.get_role(675743974140411905),reason="SimpBot unsimp")
         if simpee in self.simped:
             await channel.send("%s is already simped!" % simpee.name)
             return
