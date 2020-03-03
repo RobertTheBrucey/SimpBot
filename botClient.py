@@ -79,7 +79,8 @@ class BotClient( discord.Client ):
         while timeout > 0:
             votes_for_l = []
             sleep_time = (time.time()-start_time) - (VOTE_TIME-timeout)
-            await asyncio.sleep(time.time()-start_time+30-timeout)
+            print(str(time.time()-start_time),str(timeout))
+            await asyncio.sleep(sleep_time)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
             timeout -= 1
             online_members = yes_count = no_count = 0
