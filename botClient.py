@@ -79,6 +79,8 @@ class BotClient( discord.Client ):
         while timeout > 0:
             votes_for_l = []
             sleep_time = (VOTE_TIME-timeout) - (time.time()-start_time)
+            if sleep_time < 0:
+                sleep_time = 0
             print(str(time.time()-start_time),str(timeout),str(sleep_time))
             await asyncio.sleep(sleep_time)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
