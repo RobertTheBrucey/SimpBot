@@ -91,7 +91,7 @@ class BotClient( discord.Client ):
                 elif reaction.emoji == emoji2:
                     no_count = reaction.count
             await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4))
-        if yes_count-no_count > online_members/4:
+        if yes_count-no_count >= online_members/4:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             await msg.channel.send(emoji)
             if simpee in self.simped:
