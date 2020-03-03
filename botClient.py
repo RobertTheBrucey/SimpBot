@@ -76,9 +76,9 @@ class BotClient( discord.Client ):
         votes_for = []
         while timeout > 0:
             votes_for_l = []
+            await asyncio.sleep(time.time()%1)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
             timeout -= 1
-            await asyncio.sleep(time.time()%1)
             online_members = yes_count = no_count = 0
             members = msg.guild.members
             for member in members:
