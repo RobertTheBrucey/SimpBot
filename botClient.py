@@ -18,6 +18,7 @@ class BotClient( discord.Client ):
 
     async def on_ready( self ):
         print( 'Logged on as {0}!'.format( self.user ) )
+        await self.remove_roles(channel.guild.get_role(675743974140411905),reason="SimpBot unsimp")
 
     async def on_message( self, message ):
         #Ignore own messages
@@ -57,6 +58,7 @@ class BotClient( discord.Client ):
                 pass
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
+        await self.remove_roles(channel.guild.get_role(675743974140411905),reason="SimpBot unsimp")
         if simpee in self.simped:
             await channel.send("%s is already simped!" % simpee.name)
             return
