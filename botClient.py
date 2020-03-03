@@ -73,7 +73,9 @@ class BotClient( discord.Client ):
         await msg.add_reaction(emoji2)
         timeout = 30
         online_members = yes_count = no_count = 0
+        votes_for = []
         while timeout > 0:
+            votes_for_l = []
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
             timeout -= 1
             await asyncio.sleep(1)
@@ -85,6 +87,7 @@ class BotClient( discord.Client ):
             for reaction in msg.reactions:
                 if reaction.emoji == emoji:
                     yes_count = reaction.count
+                    votes_for_l = await reaction.users().flatten()
                 elif reaction.emoji == emoji2:
                     no_count = reaction.count
         if yes_count-no_count > online_members/4:
@@ -95,7 +98,8 @@ class BotClient( discord.Client ):
             else:
                 mult = 1
             simptime = SIMP_BASETIME * mult
-            await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,simptime))
+            votes_for = ', '.join(votes_for_l)
+            await msg.channel.send("%s has been simped for %d minutes\nVotes for: %s" % (simpee.name,simptime,votes_for))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
             self.simped[simpee] = (time.time() + simptime*60, mult)
             await asyncio.sleep(simptime*60)
