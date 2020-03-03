@@ -58,7 +58,7 @@ class BotClient( discord.Client ):
                 pass
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
-        if simpee in self.simped:
+        if simpee in self.simped and self.simped[simpee][0] < time.time():
             await channel.send("%s is already simped!" % simpee.name)
             return
         online_members = 0
