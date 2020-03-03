@@ -62,7 +62,7 @@ class BotClient( discord.Client ):
             await channel.send("%s is already simped!" % simpee.name)
             return
         online_members = 0
-        members = msg.guild.members
+        members = message.guild.members
         for member in members:
             if str(member.status) == "online":
                 online_members += 1
