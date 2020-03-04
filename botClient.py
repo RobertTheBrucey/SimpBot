@@ -11,11 +11,13 @@ reserved = ['simpintro','simp','unsimp','unsimpall']
 class BotClient( discord.Client ):
     blacklist = {}
     simped = {}
+    inprogress = 0
     def __init__(self, ):
         super().__init__()
         self.blacklist = {}
         self.simped = {}
         self.simptime = {}
+        self.inprogress = 0
 
     async def on_ready( self ):
         print( 'Logged on as {0}!'.format( self.user ) )
@@ -96,8 +98,8 @@ class BotClient( discord.Client ):
                     votes_for_l = await reaction.users().flatten()
                 elif reaction.emoji == emoji2:
                     no_count = reaction.count
-            await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4+1))
-        if yes_count-no_count >= online_members/4:
+            await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4))
+        if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             await msg.channel.send(emoji)
             if simpee in self.simped:
