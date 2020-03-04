@@ -58,7 +58,7 @@ class BotClient( discord.Client ):
                         await message.channel.send("Could not find user.")
                         print("Search string: %s, Full Array: %s" % (message.content.lower().split()[1],str(message.content.lower().split())))
                 else:
-                    await message.channel.send("Please wait up to %d minutes before simping again %s" % (VOTE_TIMEOUT, message.author.name))
+                    await message.channel.send("Please wait %d seconds before simping again %s" % (self.blacklist[message.author]-time.time(), message.author.name))
             elif command[1:] == "unsimp":
                 pass
             elif command[1:] == "unsimpall":
