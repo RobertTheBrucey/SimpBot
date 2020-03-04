@@ -35,6 +35,9 @@ class BotClient( discord.Client ):
                 await message.channel.send("I'm SimpBot")
             elif command[1:] == "simp":
                 await message.guild.get_member(self.user.id).remove_roles(message.guild.get_role(675743974140411905),reason="SimpBot unsimp")
+                if self.inprogress:
+                    await message.channel.send("Vote in progress, please wait")
+                    return
                 if message.author not in self.blacklist:
                     self.blacklist[message.author] = time.time()
                 if time.time() >= self.blacklist[message.author]:
@@ -69,6 +72,7 @@ class BotClient( discord.Client ):
         for member in members:
             if str(member.status) == "online":
                 online_members += 1
+        self.inprogress = 1
         msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
@@ -100,6 +104,7 @@ class BotClient( discord.Client ):
                     no_count = reaction.count
                     votes_against_l = await reaction.users().flatten()
             await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4))
+        self.inprogress = 0
         if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             if simpee in self.simped:
