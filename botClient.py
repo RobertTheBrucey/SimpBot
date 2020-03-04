@@ -77,16 +77,16 @@ class BotClient( discord.Client ):
         timeout = VOTE_TIME
         start_time = time.time()
         online_members = yes_count = no_count = 0
-        votes_for = []
         while timeout > 0:
             votes_for_l = []
+            votes_against_l = []
             sleep_time = (VOTE_TIME-timeout) - (time.time()-start_time)
             if sleep_time < 0:
                 sleep_time = 0
             #print(str(time.time()-start_time),str(timeout),str(sleep_time))
             await asyncio.sleep(sleep_time)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
-            timeout -= 1
+            timeout -= 5
             online_members = yes_count = no_count = 0
             members = msg.guild.members
             for member in members:
@@ -98,21 +98,26 @@ class BotClient( discord.Client ):
                     votes_for_l = await reaction.users().flatten()
                 elif reaction.emoji == emoji2:
                     no_count = reaction.count
+                    votes_against_l = await reaction.users().flatten()
             await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4))
         if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
-            await msg.channel.send(emoji)
             if simpee in self.simped:
                 mult = self.simped[simpee][1] + 1
             else:
                 mult = 1
             simptime = SIMP_BASETIME * mult
             votes_for = ""
+            votes_against = ""
             for user in votes_for_l:
                 votes_for += user.name + ", "
             votes_for = votes_for[:-2]
+            for user in votes_against_l:
+                votes_against += user.name + ", "
+            votes_against = votes_against[:-2]
             await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,simptime))
-            await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s" % (simpee.name, message.author.name,votes_for))
+            await msg.channel.send(emoji)
+            await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s\nVotes against: %s" % (simpee.name, message.author.name,votes_for,votes_against))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
             self.simped[simpee] = [time.time() + simptime*60, mult]
             await asyncio.sleep(simptime*60)
