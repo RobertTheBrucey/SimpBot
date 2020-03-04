@@ -112,7 +112,7 @@ class BotClient( discord.Client ):
                 votes_for += user.name + ", "
             votes_for = votes_for[:-2]
             await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,simptime))
-            await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s" % (simpee.name, message.author.name,simptime,votes_for))
+            await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s" % (simpee.name, message.author.name,votes_for))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
             self.simped[simpee] = [time.time() + simptime*60, mult]
             await asyncio.sleep(simptime*60)
