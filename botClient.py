@@ -11,6 +11,7 @@ reserved = ['simpintro','simp','unsimp','unsimpall']
 class BotClient( discord.Client ):
     blacklist = {}
     simped = {}
+    simptime = []
     inprogress = 0
     def __init__(self, ):
         super().__init__()
@@ -81,7 +82,7 @@ class BotClient( discord.Client ):
         timeout = VOTE_TIME
         start_time = time.time()
         online_members = yes_count = no_count = 0
-        while timeout > 0:
+        while timeout > 0 and not yes_count-no_count >= online_members/2-1:
             votes_for_l = []
             votes_against_l = []
             sleep_time = (VOTE_TIME-timeout) - (time.time()-start_time)
@@ -107,8 +108,8 @@ class BotClient( discord.Client ):
         self.inprogress = 0
         if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
-            if simpee in self.simped:
-                mult = self.simped[simpee][1] + 1
+            if simpee in self.simptime:
+                mult = self.simptime[simpee] + 1
             else:
                 mult = 1
             simptime = SIMP_BASETIME * mult
@@ -124,11 +125,15 @@ class BotClient( discord.Client ):
             await msg.channel.send(emoji)
             await msg.edit(content="Vote to @simp %s initiated by %s\nVotes for: %s\nVotes against: %s" % (simpee.name, message.author.name,votes_for,votes_against))
             await simpee.add_roles(msg.guild.get_role(675743974140411905),reason="SimpBot vote passed")
-            self.simped[simpee] = [time.time() + simptime*60, mult]
+            self.simped[simpee] = time.time() + simptime*60
+            self.simptime[simpee] = mult
             await asyncio.sleep(simptime*60)
+            self.simptime[simpee] = mult
             await simpee.remove_roles(msg.guild.get_role(675743974140411905),reason="SimpBot timeout over")
             print("Unsimping %s" % simpee.name)
-            await asyncio.sleep(simptime*60)
             self.simped.pop(simpee)
+            await asyncio.sleep(simptime*60)
+            if not simpee in self.simped:
+                self.simptime[simpee] = 0
         else:
             await msg.channel.send("Simp vote for %s failed" % simpee.name)
