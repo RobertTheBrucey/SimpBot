@@ -85,7 +85,7 @@ class BotClient( discord.Client ):
         votes_for_l = []
         votes_against_l = []
         msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
-        while timeout > 0 and yes_count-no_count < online_members/2:
+        while timeout > 0 and (yes_count-no_count < online_members/2 or online_members == 0):
             timeout -= 5
             votes_for_l = []
             votes_against_l = []
