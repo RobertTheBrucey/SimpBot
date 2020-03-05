@@ -84,7 +84,7 @@ class BotClient( discord.Client ):
         online_members = yes_count = no_count = 0
         votes_for_l = []
         votes_against_l = []
-        while timeout > 0 and not yes_count-no_count >= online_members/2-1:
+        while timeout > 0:
             votes_for_l = []
             votes_against_l = []
             sleep_time = (VOTE_TIME-timeout) - (time.time()-start_time)
