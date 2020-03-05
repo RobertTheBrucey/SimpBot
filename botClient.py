@@ -84,7 +84,8 @@ class BotClient( discord.Client ):
         online_members = yes_count = no_count = 0
         votes_for_l = []
         votes_against_l = []
-        while timeout > 0:
+        while timeout > 0 and not (yes_count-no_count >= online_members/2-1):
+            timeout -= 5
             votes_for_l = []
             votes_against_l = []
             sleep_time = (VOTE_TIME-timeout) - (time.time()-start_time)
@@ -93,7 +94,6 @@ class BotClient( discord.Client ):
             #print(str(time.time()-start_time),str(timeout),str(sleep_time))
             await asyncio.sleep(sleep_time)
             msg = discord.utils.get(await msg.channel.history().flatten(), id=msg.id)
-            timeout -= 5
             online_members = yes_count = no_count = 0
             members = msg.guild.members
             for member in members:
