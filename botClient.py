@@ -112,7 +112,12 @@ class BotClient( discord.Client ):
         if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
             if simpee in self.simptime:
-                mult = self.simptime[simpee] + 1
+                if self.simptime[simpee] == 0:
+                    mult = 1
+                elif self.simptime[simpee] < 64:
+                    mult = self.simptime[simpee] *2
+                else:
+                    mult = self.simptime[simpee]
             else:
                 mult = 1
             simptime = SIMP_BASETIME * mult
