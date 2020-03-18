@@ -74,6 +74,7 @@ class BotClient( discord.Client ):
             if str(member.status) == "online":
                 online_members += 1
         self.inprogress = 1
+        await reset_progress()
         msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
@@ -145,3 +146,12 @@ class BotClient( discord.Client ):
                 self.simptime[simpee] = 0
         else:
             await msg.channel.send("Simp vote for %s failed" % simpee.name)
+    
+    async def reset_progress():
+        if self.inprogress == 1:
+            await asyncio.sleep(30)
+            if self.inprogress == 1:
+                self.inprogress = 2
+            await asyncio.sleep(30)
+            if self.inprogress == 2:
+                self.inprogress = 0
