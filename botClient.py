@@ -155,7 +155,7 @@ class BotClient( discord.Client ):
         else:
             await msg.channel.send("Simp vote for %s failed" % simpee.name)
     
-    async def reset_progress():
+    async def reset_progress(self):
         if self.inprogress == 1:
             await asyncio.sleep(30)
             if self.inprogress == 1:
