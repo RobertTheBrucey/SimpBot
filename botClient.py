@@ -137,10 +137,12 @@ class BotClient( discord.Client ):
             votes_for = ""
             votes_against = ""
             for user in votes_for_l:
-                votes_for += user.name + ", "
+                if not user == self.user:
+                    votes_for += user.name + ", "
             votes_for = votes_for[:-2]
             for user in votes_against_l:
-                votes_against += user.name + ", "
+                if not user == self.user:
+                    votes_against += user.name + ", "
             votes_against = votes_against[:-2]
             await msg.channel.send("%s has been simped for %d minutes" % (simpee.name,simptime))
             await msg.channel.send(emoji)
