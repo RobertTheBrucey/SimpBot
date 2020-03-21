@@ -65,6 +65,7 @@ class BotClient( discord.Client ):
                 pass
             elif command[1:] == "reset":
                 guild = message.guild
+                role = []
                 role[0] = guild.get_role('675729195372118026')
                 role[1] = guild.get_role('675731528520564736')
                 role[2] = guild.get_role('676370808553078814')
