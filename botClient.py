@@ -69,7 +69,7 @@ class BotClient( discord.Client ):
                 role.append(guild.get_role('675729195372118026'))
                 role.append(guild.get_role('675731528520564736'))
                 role.append(guild.get_role('676370808553078814'))
-                if message.author.top_role in roles:
+                if message.author.top_role in role:
                     self.inprogress = 0
                     await message.channel.send("Vote timer reset")
     async def wait_on_simp( self, message, simpee ):
