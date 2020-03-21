@@ -66,9 +66,9 @@ class BotClient( discord.Client ):
             elif command[1:] == "reset":
                 guild = message.guild
                 roles = []
-                roles.append(guild.get_role('675729195372118026'))
-                roles.append(guild.get_role('675731528520564736'))
-                roles.append(guild.get_role('676370808553078814'))
+                roles.append(guild.get_role(675729195372118026))
+                roles.append(guild.get_role(675731528520564736))
+                roles.append(guild.get_role(676370808553078814))
                 if message.author.top_role in roles:
                     self.inprogress = 0
                     await message.channel.send("Vote timer reset")
