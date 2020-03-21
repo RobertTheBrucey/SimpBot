@@ -82,7 +82,8 @@ class BotClient( discord.Client ):
             if str(member.status) == "online":
                 online_members += 1
         self.inprogress = 1
-        task = asyncio.create_task(self.reset_progress())
+        loop = asyncio.get_event_loop()
+        task = loop.create_task(self.reset_progress())
         msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
