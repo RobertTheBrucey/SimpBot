@@ -65,15 +65,17 @@ class BotClient( discord.Client ):
                 pass
             elif command[1:] == "reset":
                 guild = message.guild
-                role = []
-                role.append(guild.get_role('675729195372118026'))
-                role.append(guild.get_role('675731528520564736'))
-                role.append(guild.get_role('676370808553078814'))
-                if message.author.top_role in role:
+                roles = []
+                roles.append(guild.get_role('675729195372118026'))
+                roles.append(guild.get_role('675731528520564736'))
+                roles.append(guild.get_role('676370808553078814'))
+                if message.author.top_role in roles:
                     self.inprogress = 0
                     await message.channel.send("Vote timer reset")
                 else:
                     print(message.author.top_role)
+                    for role in roles:
+                        print(role)
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
         if simpee in self.simped and self.simped[simpee] < time.time():
