@@ -72,10 +72,7 @@ class BotClient( discord.Client ):
                 if message.author.top_role in roles:
                     self.inprogress = 0
                     await message.channel.send("Vote timer reset")
-                else:
-                    print(message.author.top_role)
-                    for role in roles:
-                        print(role)
+                    
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
         if simpee in self.simped and self.simped[simpee] < time.time():
