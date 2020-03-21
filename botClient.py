@@ -82,7 +82,7 @@ class BotClient( discord.Client ):
             if str(member.status) == "online":
                 online_members += 1
         self.inprogress = 1
-        await reset_progress()
+        await self.reset_progress()
         msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
