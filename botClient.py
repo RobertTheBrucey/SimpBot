@@ -82,7 +82,7 @@ class BotClient( discord.Client ):
             if str(member.status) == "online":
                 online_members += 1
         self.inprogress = 1
-        asyncio.create_task(self.reset_progress())
+        task = asyncio.create_task(self.reset_progress())
         msg = await channel.send("Vote to @simp %s initiated by %s\nYou have 30 seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, online_members/4))
         emoji = discord.utils.get(msg.guild.emojis, name='simp')
         emoji2 = discord.utils.get(msg.guild.emojis, name='unsimp')
@@ -117,6 +117,7 @@ class BotClient( discord.Client ):
                     no_count = reaction.count
                     votes_against_l = await reaction.users().flatten()
             await msg.edit(content="Vote to @simp %s initiated by %s\nYou have %d seconds to get to net votes of %d to simp." % (simpee.name, message.author.name, timeout, online_members/4))
+        task.cancel()
         self.inprogress = 0
         if yes_count-no_count >= online_members/4-1:
             emoji = discord.utils.get(msg.guild.emojis, name='simp')
