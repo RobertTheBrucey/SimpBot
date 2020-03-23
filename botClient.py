@@ -20,6 +20,7 @@ class BotClient( discord.Client ):
         self.simped = {}
         self.simptime = {}
         self.inprogress = 0
+        self.helpString = "Commands are simpintro, simp, reset, roll"
 
     async def on_ready( self ):
         print( 'Logged on as {0}!'.format( self.user ) )
@@ -82,7 +83,9 @@ class BotClient( discord.Client ):
                 else:
                     lowI = int(msgArr[1])
                     highI = int(msgArr[2])
-                    message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+1)
+                    message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+1))
+            elif command[1:] == "help":
+                message.channel.send(self.helpString)
                     
     async def wait_on_simp( self, message, simpee ):
         channel = message.channel
