@@ -3,6 +3,7 @@ import time
 import asyncio
 import pickle
 import random
+import re
 
 VOTE_TIMEOUT = 2
 SIMP_BASETIME = 7.5
@@ -79,7 +80,16 @@ class BotClient( discord.Client ):
                 if len(msgArr) == 1:
                     await message.channel.send("Rolling a d6: %d" % (random.random()*6+1))
                 elif len(msgArr) == 2:
-                    await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])))
+                    if re.search("\d+d\d+",msgArr):
+                        dice = int(msgArr[1].split("d")[0])
+                        dtype = int(msgArr[1].split("d")[1])
+                        rolls = []
+                        for i in range(dice):
+                            rolls.append(random.random()*dtype+1)
+                        output = ', '.join(rolls)
+                        await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, output))
+                    else:
+                        await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])))
                 else:
                     lowI = int(msgArr[1])
                     highI = int(msgArr[2])
