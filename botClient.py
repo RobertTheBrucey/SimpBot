@@ -83,11 +83,11 @@ class BotClient( discord.Client ):
                     if re.search("\d+d\d+",msgArr[1]):
                         dice = int(msgArr[1].split("d")[0])
                         dtype = int(msgArr[1].split("d")[1])
-                        rolls = []
+                        rolls = ""
                         for i in range(dice):
-                            rolls.append(random.random()*dtype+1)
-                        output = ', '.join(rolls)
-                        await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, output))
+                            rolls += str(random.random()*dtype+1) + ", "
+                        rolls = rolls[:-2]
+                        await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, rolls))
                     else:
                         await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])))
                 else:
