@@ -85,7 +85,7 @@ class BotClient( discord.Client ):
                         dtype = int(msgArr[1].split("d")[1])
                         rolls = ""
                         for i in range(dice):
-                            rolls += str(random.random()*dtype+1) + ", "
+                            rolls += str(int(random.random()*dtype+1)) + ", "
                         rolls = rolls[:-2]
                         await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, rolls))
                     else:
