@@ -77,7 +77,7 @@ class BotClient( discord.Client ):
             elif command[1:] == "roll":
                 msgArr = message.content.lower().split()
                 if len(msgArr) == 1:
-                    message.channel.send("Rolling a d6: %d" % random.random()*6+1)
+                    message.channel.send("Rolling a d6: %d" % (random.random()*6+1))
                 elif len(msgArr) == 2:
                     message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])))
                 else:
