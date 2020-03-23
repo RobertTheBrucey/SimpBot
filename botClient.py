@@ -80,7 +80,7 @@ class BotClient( discord.Client ):
                 if len(msgArr) == 1:
                     await message.channel.send("Rolling a d6: %d" % (random.random()*6+1))
                 elif len(msgArr) == 2:
-                    if re.search("\d+d\d+",msgArr):
+                    if re.search("\d+d\d+",msgArr[1]):
                         dice = int(msgArr[1].split("d")[0])
                         dtype = int(msgArr[1].split("d")[1])
                         rolls = []
