@@ -76,24 +76,27 @@ class BotClient( discord.Client ):
                     self.inprogress = 0
                     await message.channel.send("Vote timer reset")
             elif command[1:] == "roll":
-                msgArr = message.content.lower().split()
-                if len(msgArr) == 1:
-                    await message.channel.send("Rolling a d6: %d" % (random.random()*6+1))
-                elif len(msgArr) == 2:
-                    if re.search("\d+d\d+",msgArr[1]):
-                        dice = int(msgArr[1].split("d")[0])
-                        dtype = int(msgArr[1].split("d")[1])
-                        rolls = ""
-                        for i in range(dice):
-                            rolls += str(int(random.random()*dtype+1)) + ", "
-                        rolls = rolls[:-2]
-                        await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, rolls))
+                try:
+                    msgArr = message.content.lower().split()
+                    if len(msgArr) == 1:
+                        await message.channel.send("Rolling a d6: %d" % (random.random()*6+1))
+                    elif len(msgArr) == 2:
+                        if re.search("\d+d\d+",msgArr[1]):
+                            dice = int(msgArr[1].split("d")[0])
+                            dtype = int(msgArr[1].split("d")[1])
+                            rolls = ""
+                            for i in range(dice):
+                                rolls += str(int(random.random()*dtype+1)) + ", "
+                            rolls = rolls[:-2]
+                            await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, rolls))
+                        else:
+                            await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])+1))
                     else:
-                        await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])))
-                else:
-                    lowI = int(msgArr[1])
-                    highI = int(msgArr[2])
-                    await message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+lowI))
+                        lowI = int(msgArr[1])
+                        highI = int(msgArr[2])
+                        await message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+lowI))
+                except:
+                    await message.channel.send("No! Stop being dumb.")
             elif command[1:] == "help":
                 await message.channel.send(self.helpString)
                     
