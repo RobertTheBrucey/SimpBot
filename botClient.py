@@ -83,7 +83,7 @@ class BotClient( discord.Client ):
                 else:
                     lowI = int(msgArr[1])
                     highI = int(msgArr[2])
-                    await message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+1))
+                    await message.channel.send("Rolling between %d and %d: %d" % (lowI,highI,random.random()*(highI-lowI)+lowI))
             elif command[1:] == "help":
                 await message.channel.send(self.helpString)
                     
