@@ -89,6 +89,8 @@ class BotClient( discord.Client ):
                                 rolls += str(int(random.random()*dtype+1)) + ", "
                             rolls = rolls[:-2]
                             await message.channel.send("Rolling %dd%d: %s" % (dice, dtype, rolls))
+                        elif msgArr[1].lower() == "help":
+                            await message.channel.send("Roll commands are `roll` for a d6, `roll X` to roll up to X, `roll X Y` to roll between X and Y and `roll XdY` to roll X dice of size Y")
                         else:
                             await message.channel.send("Rolling a d%d: %d" % (int(msgArr[1]),random.random()*int(msgArr[1])+1))
                     else:
